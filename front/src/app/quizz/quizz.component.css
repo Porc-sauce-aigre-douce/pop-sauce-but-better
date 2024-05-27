@@ -158,7 +158,6 @@ main {
   visibility: hidden;
   margin: -1.5rem auto 1.5rem auto;
   font-size: 1.6rem;
-  line-heigth: 1;
   width: 60px;
   height: 50px;
   background: var(--panel-bg);
