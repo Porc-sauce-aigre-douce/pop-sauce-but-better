@@ -5,9 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirName = path.dirname(__fileName);
-
 const PORT = process.env.PORT || 8080;
-
 const app = express();
 
 app.use(express.static(path.join(__dirName, "public")));
@@ -40,8 +38,46 @@ io.on('connection', socket => {
         rooms: getAllActiveRooms()
     })
 
+    socket.on('createRoom', ({username, roomName, subject}) => {
+        if (!username) {
+            username = generateGuestName();
+        }
+        socket.join(roomName);
+        activateUser(socket.id, username, roomName);
+        io.to(roomName).emit('roomUsers', {
+            room: roomName,
+            users: getUsersInRoom(roomName),
+            subject: subject
+        });
+        io.emit('roomList', {
+            rooms: getAllActiveRooms()
+        })
+    });
+
+    socket.on('joinRoom', ({username, roomName, subject}) => {
+        if (!username) {
+            username = generateGuestName();
+        }
+        const roomExists = getAllActiveRooms().includes(roomName);
+        if (roomExists) {
+            socket.join(roomName);
+            activateUser(socket.id, username, roomName);
+            io.to(roomName).emit('roomUsers', {
+                room: roomName,
+                users: getUsersInRoom(roomName),
+                subject: subject
+            })
+        } else {
+            socket.emit('error', { message: `Room ${roomName} does not exist` });
+        }
+    })
+
     socket.on('disconnect', () => {
+        userLeavesApp(socket.id);
         console.log(`User ${socket.id} disconnected`);
+        io.emit('roomList', {
+            rooms: getAllActiveRooms()
+        });
     })
 })
 
@@ -80,3 +116,6 @@ function getAllActiveRooms() {
     return Array.from(new Set(UsersState.users.map(user => user.room)));
 }
 
+function generateGuestName() {
+    return `Guest_${Math.floor(Math.random() * 10000)}`;
+}
