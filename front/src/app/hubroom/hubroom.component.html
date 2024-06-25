@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion - Application de Quiz</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
 <form class="my-Form">
   <input type="search" name="Name" placeholder="Nom de la room" class="my-input">
   <svg xmlns="http://www.w3.org/2000/svg" width="8" height="50" fill="none" viewBox="0 0 2 48">
@@ -26,7 +20,7 @@
   <input type="text" id="username" name="username" required>
 </form>
 
-<a href="https://colorme.io/" target="_blank">
+<a [routerLink]="['/quizz']">
   <div class="element-item web colours cssjava">
     <p class="logo"><img src="https://colorme.io/favicon.ico" alt=""></p>
     <h3 class="name">Alien</h3>
