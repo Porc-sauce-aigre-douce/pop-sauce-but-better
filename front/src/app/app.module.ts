@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HubroomComponent } from './hubroom/hubroom.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { QuizzComponent } from './quizz/quizz.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HubroomComponent
+    HubroomComponent,
+    QuizzComponent
   ],
   imports: [
     BrowserModule,
