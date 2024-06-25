@@ -1,8 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + "/.env"});
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const {Server} = require("socket.io");
+const { onConnection } = require("./websocket/websocketServer");
 
 const app = express();
 
@@ -26,10 +28,33 @@ require('./auth/routes')(app);
 require('./questions/routes')(app);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const expressServer = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connected');
 });
+
+// Cors information
+const io = new Server(expressServer, {
+  cors: {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  }
+})
+
+io.engine.on('connection_error', (err) => {
+  console.log(err.req);       // the request object
+  console.log(err.code);      // the error code
+  console.log(err.message);   // the error message
+  console.log(err.context);   // some additional error context
+})
+
+const webSocketConnect = async (socket) => {
+  onConnection(io, socket)
+}
+
+io.on('connection', webSocketConnect)
