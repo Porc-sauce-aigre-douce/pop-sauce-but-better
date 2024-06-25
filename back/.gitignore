@@ -4,7 +4,7 @@
 
 # === Rule for dotfiles ===
 # Ignore all dotfiles.
-../.idea
+.*
 # Exclude specific dotfiles that we want to track.
 !deps/**/.*
 !.devcontainer/
