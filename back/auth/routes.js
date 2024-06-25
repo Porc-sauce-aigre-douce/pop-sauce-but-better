@@ -18,7 +18,6 @@ module.exports = (app) => {
   app.post('/login', async (req, res) => {
     const { username, password, rememberMe } = req.body;
     const user = await User.findOne({ username });
-  
     if (!user || !await bcrypt.compare(password, user.password)) {
       return res.status(400).json({ error: 'Invalid username or password' });
     }
