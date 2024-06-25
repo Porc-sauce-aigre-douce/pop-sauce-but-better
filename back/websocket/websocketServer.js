@@ -160,14 +160,6 @@ function buildMsg(name, text) {
     }
 }
 
-function buildQuestion(question, answers, correctAnswers) {
-    return {
-        question,
-        answers,
-        correctAnswers
-    }
-}
-
 // USERS FUNCTIONS
 
 function activateUser(id, name, room) {
