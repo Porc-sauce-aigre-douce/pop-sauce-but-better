@@ -1,19 +1,8 @@
-const express = require('express');
-const {Server} = require("socket.io");
-const path = require('path');
-const fileURLToPath = require('url');
 const {Question} = require("../questions/model.js");
 
-const PORT = process.env.PORT || 8080;
 const ADMIN = 'Admin';
-const app = express();
 
 const rooms = {};
-
-const expressServer = app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-});
-
 const UsersState = {
     users:[],
     setUsers: function (newUsersArray) {
@@ -22,7 +11,7 @@ const UsersState = {
 }
 
 module.exports = {
- onConnection: (io, socket) => {
+    onConnection: (io, socket) => {
      console.log(`User ${socket.id} connected`);
 
      socket.emit('roomList', {
@@ -92,23 +81,34 @@ module.exports = {
      })
 
      socket.on('startQuiz', async ({roomName}) => {
-         const question = await Question.aggregate([{ $sample: { size: 1 } }]);
-         const answers = question[0].answers;
-         const correctAnswers = question[0].correctAnswers;
 
-         console.log('question : ', question[0].wording);
-         io.to(roomName).emit('question', {question})
+         const user = getUser(socket.id)
+         resetUsersAnswers(rooms[roomName].users)
+         let question = await getNewQuestion(io, roomName, socket, user);
 
          // Listen to user responses :
          socket.on('submitAnswer', ({userAnswer}) => {
-             const user = getUser(socket.id)
              user.points = 0;
+             user.hasAnswered = true;
              if (user) {
-                 if (isAnswerCorrect(userAnswer, correctAnswers)) {
+                 if (isAnswerCorrect(userAnswer, question[0].correctAnswers)) {
                      user.points += 1000;
                      io.to(roomName).emit('correctAnswer', {user});
                  } else {
                      io.to(roomName).emit('incorrectAnswer', {user});
+                 }
+                 let hasEveryoneAnswered = true;
+                 rooms[roomName].users.forEach((user) => {
+                     if (!user.hasAnswered) {
+                         hasEveryoneAnswered = false
+                     }
+                 })
+                 if (hasEveryoneAnswered) {
+                     io.to(roomName).emit('answer', {answer: question[0].correctAnswers[0]});
+                     setTimeout(async() => {
+                         resetUsersAnswers(rooms[roomName].users)
+                         question = await getNewQuestion(io, roomName, socket)
+                     }, 5000)
                  }
              }
          })
@@ -212,4 +212,18 @@ function roomExist(roomName) {
     if (rooms[roomName]) {
         return true;
     }
+}
+
+async function getNewQuestion(io, roomName) {
+    const question = await Question.aggregate([{ $sample: { size: 1 } }]);
+
+    console.log('question : ', question[0].wording);
+    io.to(roomName).emit('question', {question})
+    return question;
+}
+
+function resetUsersAnswers(users) {
+    users.forEach((user) => {
+        user.hasAnswered = false;
+    })
 }
