@@ -2,7 +2,13 @@
 <main>
   <h1> anime Quiz 📚</h1>
 
-  <table class="quiz">Dans quel événement tragique Rintaro Okabe se retrouve-t-il plongé au début du manga, le poussant à s'engager dans des recherches sur le voyage dans le temps ?</table>
+  <table class="quiz"><div *ngIf="question">
+    <h2>{{ question.title }}</h2>
+    <p>{{ question.content }}</p>
+  </div>
+  <div *ngIf="!question">
+    <p>Loading question...</p>
+  </div></table>
   
   <h1>Réponse : <input> </h1>
 
