@@ -6,11 +6,22 @@
     <h2>{{ question.title }}</h2>
     <p>{{ question.content }}</p>
   </div>
-  <div *ngIf="!question">
+  
+  <div *ngIf="!isQuestionLoaded() && answerState == AnswerState.NOTANSWERED; else elseBlock">
     <p>Loading question...</p>
   </div></table>
+
+  <ng-template #elseBlock>
+    <p>{{question.wording}}</p>
+    <div *ngFor="let answer of question.answers">
+      <button (click)="answerQuestion(answer)">{{answer}}</button>
+    </div>
+  </ng-template>
+
+  <div *ngIf="answer">réponse : {{ answer }}</div>
+
   
-  <h1>Réponse : <input> </h1>
+  <!-- <h1>Réponse : <input> </h1> -->
 
 
   <div class="generators">
