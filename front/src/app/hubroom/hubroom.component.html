@@ -20,10 +20,12 @@
   <input type="text" id="username" name="username" required>
 </form>
 
-<a [routerLink]="['/quizz']">
-  <div class="element-item web colours cssjava">
-    <p class="logo"><img src="https://colorme.io/favicon.ico" alt=""></p>
-    <h3 class="name">Alien</h3>
-    <p class="desc">1/50</p>
-  </div>
-</a>
+<div *ngFor="let room of rooms">
+  <a [routerLink]="['/', room.roomName]">
+    <div class="element-item web colours cssjava">
+      <p class="logo"><img src="https://colorme.io/favicon.ico" alt=""></p>
+      <h3 class="name">{{room.roomName}}</h3>
+      <p class="desc">{{getUserNumberInRoom(room)}}</p>
+    </div>
+  </a>
+</div>
