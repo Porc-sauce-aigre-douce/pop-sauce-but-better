@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HubroomComponent } from './hubroom/hubroom.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { QuizzComponent } from './quizz/quizz.component';
+import { FormsModule } from '@angular/forms';
+// import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { QuizzComponent } from './quizz/quizz.component';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@ import { QuizzComponent } from './quizz/quizz.component';
 
 const routes: Routes = [
   { path: '', component: HubroomComponent },
+  { path: ":id", component: QuizzComponent},
   { path: 'quizz', component: QuizzComponent },
 ]
 
