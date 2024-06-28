@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hubroom',
@@ -10,8 +11,9 @@ export class HubroomComponent {
   question: any;
   socket: any;
   rooms: any[] = [];
+  roomName: string = '';
 
-  constructor(private websocketService: WebsocketService) {}
+  constructor(private websocketService: WebsocketService, private router: Router) {}
 
   ngOnInit(): void {
     this.socket = this.websocketService.connect();
@@ -46,5 +48,9 @@ export class HubroomComponent {
 
   getUserNumberInRoom(room: any) {
     return room.users.length;
+  }
+
+  onCreateRoom(): void {
+    this.router.navigate(['/', this.roomName]);
   }
 }
