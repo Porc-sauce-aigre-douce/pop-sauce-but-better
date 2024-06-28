@@ -7,13 +7,15 @@ import { HubroomComponent } from './hubroom/hubroom.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { QuizzComponent } from './quizz/quizz.component';
 import { FormsModule } from '@angular/forms';
+import { BackOfficeComponent } from './back-office/back-office.component';
 // import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
   declarations: [
     AppComponent,
     HubroomComponent,
-    QuizzComponent
+    QuizzComponent,
+    BackOfficeComponent
   ],
   imports: [
     BrowserModule,
