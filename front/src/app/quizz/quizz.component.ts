@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService } from '../services/question.service';
 import { WebsocketService } from '../services/websocket.service';
 import { ActivatedRoute } from '@angular/router';
 

@@ -1,0 +1,13 @@
+services:
+  front:
+    image: pop-sauce-but-better-front
+    build: ./front
+    ports:
+      - "4200:4200"
+    depends_on:
+      - back
+  back:
+    image: pop-sauce-but-better-back
+    build: ./back
+    ports:
+      - "3000:3000"
