@@ -21,7 +21,7 @@
 </form>
 
 <div *ngFor="let room of rooms">
-  <a [routerLink]="['/', room.roomName]">
+  <a [routerLink]="['/room/', room.roomName]">
     <div class="element-item web colours cssjava">
       <p class="logo"><img src="https://colorme.io/favicon.ico" alt=""></p>
       <h3 class="name">{{room.roomName}}</h3>
