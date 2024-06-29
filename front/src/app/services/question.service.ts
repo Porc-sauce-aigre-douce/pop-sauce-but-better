@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class QuestionService {
-  private apiUrl = 'http://localhost:3000/api/questions';
+  private apiUrl = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) { }
 
   getQuestions(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.apiUrl + "questions");
   }
 }

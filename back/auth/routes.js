@@ -34,6 +34,7 @@ module.exports = (app) => {
   }),
   
   app.get('/protected', authMiddleware, (req, res) => {
+    // res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.json({ message: 'This is a protected route' });
   }),
   
