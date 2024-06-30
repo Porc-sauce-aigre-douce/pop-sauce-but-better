@@ -12,6 +12,16 @@
   </button>
 </form>
 
+<div *ngIf="isLoggedIn; else elseBlock">
+  <a [routerLink]="['/backoffice']"><button>Backoffice</button></a>
+  <button (click)="onLogout()">Logout</button>
+</div>
+
+<ng-template #elseBlock>
+  <a [routerLink]="['/login']"><button>Login</button></a>
+  <a [routerLink]="['/register']"><button>Register</button></a>
+</ng-template>
+
 <h1 class="h1">
   <h1>Bienvenue à l'Application de Quiz</h1>
 </h1>

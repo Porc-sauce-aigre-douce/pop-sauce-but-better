@@ -6,8 +6,10 @@ import { AppComponent } from './app.component';
 import { HubroomComponent } from './hubroom/hubroom.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { QuizzComponent } from './quizz/quizz.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BackOfficeComponent } from './back-office/back-office.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { LogInComponent } from './log-in/log-in.component';
 // import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
@@ -15,7 +17,9 @@ import { BackOfficeComponent } from './back-office/back-office.component';
     AppComponent,
     HubroomComponent,
     QuizzComponent,
-    BackOfficeComponent
+    BackOfficeComponent,
+    SignUpComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +31,7 @@ import { BackOfficeComponent } from './back-office/back-office.component';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
