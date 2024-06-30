@@ -46,4 +46,14 @@ module.exports = (app) => {
       res.json({ message: 'Logged out successfully' });
     });
   })
+
+  app.get('/isLoggedIn', (req, res) => {
+    if (req.session.userId) {
+      res.status(200);
+      res.json({ isLoggedIn: true });
+    } else {
+      res.status(200);
+      res.json({ isLoggedIn: false });
+    }
+  })
 }

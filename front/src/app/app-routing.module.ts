@@ -4,11 +4,15 @@ import { HubroomComponent } from './hubroom/hubroom.component';
 import { QuizzComponent } from './quizz/quizz.component';
 import { BackOfficeComponent } from './back-office/back-office.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
+import { LogInComponent } from './log-in/log-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', component: HubroomComponent },
   { path: "backoffice", component: BackOfficeComponent, canActivate: [isLoggedInGuard]},
   { path: "room/:id", component: QuizzComponent},
+  { path: "login", component: LogInComponent},
+  { path: "register", component: SignUpComponent},
   { path: '**', redirectTo: '' }
 ]
 

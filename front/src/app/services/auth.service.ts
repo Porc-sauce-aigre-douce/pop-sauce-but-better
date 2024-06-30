@@ -16,7 +16,7 @@ export class AuthService {
       },
       credentials: rememberMe ? 'include' : 'same-origin',
       body: JSON.stringify({ username, password }),
-    }).then((response) => response.json());
+    }).then((response) => response.status === 400 ? false : true);
   }
 
   register(username: string, password: string) {
@@ -26,7 +26,7 @@ export class AuthService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
-    }).then((response) => response.json());
+    }).then((response) => response.status === 400 ? false : true);
   }
 
   logout() {
@@ -48,24 +48,23 @@ export class AuthService {
       credentials: 'include',
     }).then((response) => {
       if (response.status === 401) {
-        return response.json().then(() => {throw new Error("Unauthorized")});
+        return response.json().then(() => {
+          throw new Error('Unauthorized');
+        });
       }
       return response.json();
     });
   }
 
   isLoggedIn() {
-    return fetch(this.apiUrl + 'protected', {
+    return fetch(this.apiUrl + 'isLoggedIn', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
     }).then((response) => {
-      if (response.status === 401) {
-        return false;
-      }
-      return true;
+      return response.json();
     });
   }
 }

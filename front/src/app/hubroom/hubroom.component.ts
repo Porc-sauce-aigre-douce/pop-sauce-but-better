@@ -17,12 +17,17 @@ export class HubroomComponent {
 
   constructor(
     private websocketService: WebsocketService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.socket = this.websocketService.connect();
     this.setEvents();
+
+    this.authService.isLoggedIn().then((response) => {
+      this.isLoggedIn = response.isLoggedIn;
+    });
   }
 
   setEvents() {
@@ -57,5 +62,11 @@ export class HubroomComponent {
 
   onCreateRoom(): void {
     this.router.navigate(['/room/', this.roomName]);
+  }
+
+  onLogout(): void {
+    this.authService.logout().then(() => {
+      location.reload();
+    });
   }
 }
