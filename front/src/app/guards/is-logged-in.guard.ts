@@ -7,7 +7,6 @@ export const isLoggedInGuard: CanActivateFn = (route, state) => {
   return inject(AuthService)
     .getUser()
     .then((response) => {
-      console.log(response);
       const isLoggedIn: boolean = response ? true : false;
 
       return isLoggedIn || router.navigate(['/']);

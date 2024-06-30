@@ -33,7 +33,7 @@ module.exports = (app) => {
   app.put("/question/:id", authMiddleware, async (req, res) => {
     try {
       await Question.findByIdAndUpdate(req.params.id, req.body);
-      res.send("Question updated");
+      res.send({message: "Question updated"});
     } catch (error) {
       res.status(500).send;
     }
@@ -42,7 +42,7 @@ module.exports = (app) => {
   app.delete("/question/:id", authMiddleware, async (req, res) => {
     try {
       await Question.findByIdAndDelete(req.params.id);
-      res.send("Question deleted");
+      res.send({message: "Question deleted"});
     } catch (error) {
       res.status(500).send;
     }
