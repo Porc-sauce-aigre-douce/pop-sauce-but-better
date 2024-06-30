@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BackOfficeComponent } from './back-office/back-office.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { LogInComponent } from './log-in/log-in.component';
+import { HttpClientModule } from '@angular/common/http';
 // import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { LogInComponent } from './log-in/log-in.component';
     }),
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
