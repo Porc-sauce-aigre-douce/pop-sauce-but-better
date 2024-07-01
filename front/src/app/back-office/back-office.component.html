@@ -1,5 +1,11 @@
 <div>
-  <h1>Question Management</h1>
+
+  <div>
+    <button class="validators" [routerLink]="['']"> ↺ HUB </button>
+  </div>
+  <div class="title">
+    <h1>Question Management</h1>
+  </div>
 
   <button (click)="showCreateForm()">Create Question</button>
 
@@ -20,11 +26,13 @@
     </form>
   </div>
 
-  <div *ngFor="let question of questions">
+  <div class="questions" *ngFor="let question of questions">
     <p>{{ question.wording }}</p>
 
-    <button (click)="selectQuestion(question)">Edit</button>
-    <button (click)="deleteQuestion(question._id)">Delete</button>
+    <div>
+      <button (click)="selectQuestion(question)">Edit</button>
+      <button (click)="deleteQuestion(question._id)">Delete</button>
+    </div>
 
     <div *ngIf="question === selectedQuestion">
       <form (submit)="updateQuestion(question)" [formGroup]="editForm">

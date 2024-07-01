@@ -1,12 +1,16 @@
-<h1>Register</h1>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" formControlName="username">
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <form class="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" formControlName="username">
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password">
+      </div>
+      <button type="submit" [disabled]="!registerForm.valid">Submit</button>
+    </form>
   </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" formControlName="password">
-  </div>
-  <button type="submit" [disabled]="!registerForm.valid">Submit</button>
-</form>
+</body>
