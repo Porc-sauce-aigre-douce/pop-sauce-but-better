@@ -6,8 +6,34 @@ services:
       - "4200:4200"
     depends_on:
       - back
+
   back:
     image: pop-sauce-but-better-back
     build: ./back
     ports:
       - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://root:root@mongo:27017/pop-sauce-but-better?authSource=admin
+    networks:
+      - default
+
+  mongo: 
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+        - dbMongoPopSauceButBetter:/data/db
+    networks:
+      - default
+
+volumes:
+  dbMongoPopSauceButBetter:
+
+networks:
+  default:
+    driver: bridge
