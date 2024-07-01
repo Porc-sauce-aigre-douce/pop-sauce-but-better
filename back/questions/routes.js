@@ -1,7 +1,8 @@
+const { authMiddleware } = require("../auth/middleware");
 const { Question } = require("./model");
 
 module.exports = (app) => {
-  app.get("/questions", async (req, res) => {
+  app.get("/questions", authMiddleware, async (req, res) => {
     try {
       const questions = await Question.find();
       res.send(questions);
@@ -19,7 +20,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post("/question", async (req, res) => {
+  app.post("/question", authMiddleware, async (req, res) => {
     try {
       const question = new Question(req.body);
       await question.save().catch((error) => console.log(error));
@@ -29,19 +30,19 @@ module.exports = (app) => {
     }
   });
 
-  app.put("/question/:id", async (req, res) => {
+  app.put("/question/:id", authMiddleware, async (req, res) => {
     try {
       await Question.findByIdAndUpdate(req.params.id, req.body);
-      res.send("Question updated");
+      res.send({message: "Question updated"});
     } catch (error) {
       res.status(500).send;
     }
   });
 
-  app.delete("/question/:id", async (req, res) => {
+  app.delete("/question/:id", authMiddleware, async (req, res) => {
     try {
       await Question.findByIdAndDelete(req.params.id);
-      res.send("Question deleted");
+      res.send({message: "Question deleted"});
     } catch (error) {
       res.status(500).send;
     }

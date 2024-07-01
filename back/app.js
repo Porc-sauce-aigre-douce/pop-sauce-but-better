@@ -12,6 +12,14 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI);
 
+app.all("*", (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type, X-Requested-With, X-HTTP-Method-Override, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -26,6 +34,7 @@ app.use(session({
 
 require('./auth/routes')(app);
 require('./questions/routes')(app);
+require('./user/routes')(app);
 
 const PORT = process.env.PORT || 3000;
 const expressServer = app.listen(PORT, () => {

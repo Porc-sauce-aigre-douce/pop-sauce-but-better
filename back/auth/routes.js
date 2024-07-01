@@ -34,6 +34,7 @@ module.exports = (app) => {
   }),
   
   app.get('/protected', authMiddleware, (req, res) => {
+    // res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.json({ message: 'This is a protected route' });
   }),
   
@@ -44,5 +45,15 @@ module.exports = (app) => {
       }
       res.json({ message: 'Logged out successfully' });
     });
+  })
+
+  app.get('/isLoggedIn', (req, res) => {
+    if (req.session.userId) {
+      res.status(200);
+      res.json({ isLoggedIn: true });
+    } else {
+      res.status(200);
+      res.json({ isLoggedIn: false });
+    }
   })
 }

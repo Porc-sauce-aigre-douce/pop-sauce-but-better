@@ -8,9 +8,4 @@ import { io } from 'socket.io-client';
 })
 export class AppComponent {
   title = 'pop-sauce-but-better';
-
-  connected = '';
-  socket = io('http://localhost:8080').on('connect', () => {
-    this.connected = 'HELLO';
-  });
 }

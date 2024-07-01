@@ -1,0 +1,46 @@
+<div>
+  <h1>Question Management</h1>
+
+  <button (click)="showCreateForm()">Create Question</button>
+
+  <div *ngIf="createFormVisible">
+    <form (submit)="createQuestion()" [formGroup]="createForm">
+      <input type="text" formControlName="wording" placeholder="Wording" required>
+      <input type="text" formControlName="answer1" placeholder="Answer1" required>
+      <input type="text" formControlName="answer2" placeholder="Answer2" required>
+      <input type="text" formControlName="answer3" placeholder="Answer3" required>
+      <input type="text" formControlName="answer4" placeholder="Answer4" required>
+      <select (change)="onEditCorrectAnswerValueChange($event)" formControlName="correctAnswer">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+      <button type="submit" [disabled]="!createForm.valid">Create</button>
+    </form>
+  </div>
+
+  <div *ngFor="let question of questions">
+    <p>{{ question.wording }}</p>
+
+    <button (click)="selectQuestion(question)">Edit</button>
+    <button (click)="deleteQuestion(question._id)">Delete</button>
+
+    <div *ngIf="question === selectedQuestion">
+      <form (submit)="updateQuestion(question)" [formGroup]="editForm">
+        <input type="text" formControlName="wording" placeholder="Wording" required>
+        <input type="text" formControlName="answer1" placeholder="Answer1" required>
+        <input type="text" formControlName="answer2" placeholder="Answer2" required>
+        <input type="text" formControlName="answer3" placeholder="Answer3" required>
+        <input type="text" formControlName="answer4" placeholder="Answer4" required>
+        <select (change)="onEditCorrectAnswerValueChange($event)" formControlName="correctAnswer">
+          <option value="0">1</option>
+          <option value="1">2</option>
+          <option value="2">3</option>
+          <option value="3">4</option>
+        </select>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
