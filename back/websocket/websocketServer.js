@@ -50,6 +50,7 @@ module.exports = {
          if (roomExist(roomName)) {
              const user = activateUser(socket.id, name, roomName);
              socket.join(roomName);
+             rooms[roomName].users.push(user);
              console.log(`User ${socket.id} joined room : ${roomName}`);
              io.to(roomName).emit('userJoined', socket.id)
              io.to(roomName).emit('roomUsers', {
