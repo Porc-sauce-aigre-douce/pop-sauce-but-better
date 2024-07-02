@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 enum AnswerState {
   CORRECT = 'correct',
@@ -22,10 +22,12 @@ export class QuizzComponent implements OnInit {
   answer: any;
   roomName: string = '';
   isReady: boolean = false;
+  isQuizStarted: boolean = false;
 
   constructor(
     private websocketService: WebsocketService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,20 +41,27 @@ export class QuizzComponent implements OnInit {
     this.socket.on('disconnect', this.onDisconnect);
     this.socket.on('question', ({ question }: any) => {
       this.answer = undefined;
-      this.question = question[0];
+      this.question = question;
       this.answerState = AnswerState.NOTANSWERED;
     });
-    this.socket.on('answer', ({answer}: any) => {
+    this.socket.on('answer', ({ answer }: any) => {
       this.answer = answer;
     });
     this.socket.on('correctAnswer', () => {
       this.answerState = AnswerState.CORRECT;
     });
     this.socket.on('incorrectAnswer', () => {
-      this.answerState = AnswerState.INCORRECT;});
-    this.socket.on('roomUsers', this.onRoomUsers);
-    this.socket.on('roomCreated', (roomName: string) => {
+      this.answerState = AnswerState.INCORRECT;
     });
+    this.socket.on('roomUsers', ({ users, isQuizStarted }: any) => {
+      this.users = users;
+      this.isQuizStarted = isQuizStarted;
+    });
+    this.socket.on('userList', ({ users }: any) => {
+      console.log(users);
+      this.users = users;
+    });
+    this.socket.on('roomCreated', (roomName: string) => {});
     this.socket.on('roomList', (roomList: any) => {
       this.socket.emit('createRoom', { roomName: this.roomName });
     });
@@ -68,7 +77,10 @@ export class QuizzComponent implements OnInit {
     });
     this.socket.on('message', (message: any) => {
       if (message.text === `You joined the room ${this.roomName}`) {
-        this.socket.emit('startQuiz', { roomName: this.roomName });
+        if (!this.isQuizStarted) {
+          this.socket.emit('startQuiz', { roomName: this.roomName });
+          this.isQuizStarted = true;
+        }
         return;
       }
     });
@@ -80,15 +92,16 @@ export class QuizzComponent implements OnInit {
     console.log('disconnected');
   }
 
-  onRoomUsers(users: any): void {
-    this.users = users;
-  }
-
   isQuestionLoaded(): boolean {
     return this.question !== undefined;
   }
 
   answerQuestion(answer: string): void {
-    this.socket.emit('submitAnswer', { userAnswer: answer });
+    this.socket.emit('submitAnswer', { userAnswer: answer, roomName: this.roomName });
+  }
+
+  onHubButton(): void {
+    this.socket.emit('quitRoom', { roomName: this.roomName });
+    this.router.navigate(['/']);
   }
 }

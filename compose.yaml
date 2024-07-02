@@ -18,6 +18,7 @@ services:
       MONGODB_URI: mongodb://root:root@mongo:27017/pop-sauce-but-better?authSource=admin
     networks:
       - default
+    restart: always
 
   mongo: 
     image: mongo:latest

@@ -33,7 +33,7 @@ export class HubroomComponent {
     });
 
     this.questionService.isthereQuestion().subscribe((response) => {
-      this.isThereQuestion = response.isThereQuestion;
+      this.isThereQuestion = response.isthere;
     });
   }
 
