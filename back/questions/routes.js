@@ -47,4 +47,13 @@ module.exports = (app) => {
       res.status(500).send;
     }
   });
+
+  app.get('/question/isthere', async (req, res) => {
+    try {
+      const questions = await Question.find();
+      res.send({isthere: questions.length > 0});
+    } catch (error) {
+      res.status(500).send;
+    }
+  });
 };

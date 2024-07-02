@@ -25,4 +25,8 @@ export class QuestionService {
   deleteQuestion(id: number): Observable<any> {
     return this.http.delete(this.apiUrl + "question/" + id, { withCredentials: true });
   }
+
+  isthereQuestion(): Observable<any> {
+    return this.http.get(this.apiUrl + "question/isthere", { withCredentials: true });
+  }
 }

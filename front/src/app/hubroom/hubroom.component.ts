@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { WebsocketService } from '../services/websocket.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { QuestionService } from '../services/question.service';
 
 @Component({
   selector: 'app-hubroom',
@@ -14,11 +15,13 @@ export class HubroomComponent {
   rooms: any[] = [];
   roomName: string = '';
   isLoggedIn: boolean = false;
+  isThereQuestion: boolean = false;
 
   constructor(
     private websocketService: WebsocketService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private questionService: QuestionService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +30,10 @@ export class HubroomComponent {
 
     this.authService.isLoggedIn().then((response) => {
       this.isLoggedIn = response.isLoggedIn;
+    });
+
+    this.questionService.isthereQuestion().subscribe((response) => {
+      this.isThereQuestion = response.isThereQuestion;
     });
   }
 
