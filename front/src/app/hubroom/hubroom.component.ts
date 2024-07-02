@@ -36,7 +36,6 @@ export class HubroomComponent {
     this.socket.on('roomList', ({ rooms }: any) => {
       this.rooms = [];
       for (const [key, value] of Object.entries(rooms)) {
-        console.log(value);
         if (typeof value === 'object') {
           this.rooms.push({ ...value, roomName: key });
         }

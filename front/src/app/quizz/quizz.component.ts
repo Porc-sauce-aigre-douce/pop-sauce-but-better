@@ -35,36 +35,25 @@ export class QuizzComponent implements OnInit {
   }
 
   setEvents() {
-    console.log(this.roomName);
     this.socket.on('connect', this.onConnect);
     this.socket.on('disconnect', this.onDisconnect);
     this.socket.on('question', ({ question }: any) => {
       this.answer = undefined;
       this.question = question[0];
-      console.log(question[0]);
       this.answerState = AnswerState.NOTANSWERED;
-      console.log(this.answerState);
     });
     this.socket.on('answer', ({answer}: any) => {
-      console.log(answer);
       this.answer = answer;
     });
     this.socket.on('correctAnswer', () => {
-      console.log('correct');
       this.answerState = AnswerState.CORRECT;
-      console.log(this.answerState);
     });
     this.socket.on('incorrectAnswer', () => {
-      console.log('incorrect');
       this.answerState = AnswerState.INCORRECT;});
     this.socket.on('roomUsers', this.onRoomUsers);
     this.socket.on('roomCreated', (roomName: string) => {
-      console.log(roomName);
-      // this.socket.emit('joinRoom', roomName);
     });
     this.socket.on('roomList', (roomList: any) => {
-      console.log(roomList);
-      // console.log(this.socket);
       this.socket.emit('createRoom', { roomName: this.roomName });
     });
     this.socket.on('connect_error', (err: any) => {
@@ -82,13 +71,7 @@ export class QuizzComponent implements OnInit {
         this.socket.emit('startQuiz', { roomName: this.roomName });
         return;
       }
-      console.log(message);
     });
-    // this.socket.onAny((event: any, ...args: any[]) => {
-    //   console.log(this.socket);
-    //   console.log(event, args);
-    // });
-    console.log(this.socket);
   }
 
   onConnect(): void {}
@@ -98,7 +81,6 @@ export class QuizzComponent implements OnInit {
   }
 
   onRoomUsers(users: any): void {
-    console.log(users);
     this.users = users;
   }
 

@@ -210,7 +210,6 @@ function roomExist(roomName) {
 async function getNewQuestion(io, roomName) {
     const question = await Question.aggregate([{ $sample: { size: 1 } }]);
 
-    console.log('question : ', question[0].wording);
     io.to(roomName).emit('question', {question})
     return question;
 }
