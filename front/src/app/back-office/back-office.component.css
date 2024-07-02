@@ -12,6 +12,8 @@ button {
   margin-right: 5px;
   padding: 10px;
   margin-left: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
   min-width: 100px;
   background-color: #007bff;
   color: white;
